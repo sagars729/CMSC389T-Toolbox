@@ -41,10 +41,14 @@ jobs:
       - name: Create Public Repository
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
-        run: gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" --team "facilitators" --public
+        run: |
+          gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" --team "facilitators" --public
+          gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/repos/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" -F permission=push
 
       # Create Private Repository
       - name: Create Private Repository
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
-        run: gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" --team "facilitators" --private
+        run: |
+          gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta" --team "facilitators" --private
+          gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/repos/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta" -F permission=push
