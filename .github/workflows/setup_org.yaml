@@ -103,7 +103,7 @@ jobs:
 
       - name: Link Public Repository
         run: |
-          git submodule add "git@github.com:${{github.event.inputs.organization}}/${{github.event.inputs.organization}}.git" public
+          git submodule add "https://github.com/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}.git" public
           git submodule init
           git submodule update
           git add .
