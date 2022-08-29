@@ -37,7 +37,7 @@ jobs:
   # The private repository will be used to store projects and code before
   # they are released. The public repository will be used to publish 
   # projects, code, and documentation for students. 
-  initalize_public_repo:
+  initialize_public_repo:
     runs-on: ubuntu-latest
     needs: create_teams
     
@@ -70,7 +70,7 @@ jobs:
           git commit -m "Setup Bot: setup blank repository"
           git push -u origin main
 
-  initalize_private_repo:
+  initialize_private_repo:
     runs-on: ubuntu-latest
     needs: [create_teams, initialize_public_repo]
 
