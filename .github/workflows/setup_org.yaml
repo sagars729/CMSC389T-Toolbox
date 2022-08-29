@@ -46,7 +46,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" --team "facilitators" --public
+          gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" --team "facilitators" --public --gitignore "Java"
           gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/repos/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" -F permission=push
 
       - name: Checkout Public Repository
@@ -62,7 +62,6 @@ jobs:
       
       - name: Setup Blank Repository
         run: |
-          git checkout -b main
           echo "# ${{github.event.inputs.organization}}" > README.md
           mkdir Projects
           echo "# Projects" > Projects/README.md
@@ -79,7 +78,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta" --team "facilitators" --private
+          gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta" --team "facilitators" --private --gitignore "Java"
           gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/repos/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta" -F permission=push
 
       - name: Checkout Public Repository
@@ -95,7 +94,6 @@ jobs:
       
       - name: Setup Blank Repository
         run: |
-          git checkout -b main
           echo "# ${{github.event.inputs.organization}}" > README.md
           mkdir Projects
           echo "# Projects" > Projects/README.md
@@ -105,7 +103,6 @@ jobs:
 
       - name: Link Public Repository
         run: |
-          git checkout -b main
           git submodule add "git@github.com:cmsc389T-spring22/${{github.event.inputs.organization}}.git" public
           git submodule init
           git submodule update
