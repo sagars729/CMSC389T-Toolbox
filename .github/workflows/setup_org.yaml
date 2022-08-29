@@ -64,9 +64,9 @@ jobs:
     steps:
       # Add facilitators to organization as admins
       - name: Add Facilitators
-      env:
-        GH_TOKEN: ${{ secrets.TOKEN }}
-      run: |
-        for admin in ${{github.event.inputs.admins}}
-          do gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/memberships/$admin"
-        done
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          for admin in ${{github.event.inputs.admins}}
+            do gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/memberships/$admin"
+          done
