@@ -1,0 +1,42 @@
+# This workflow will help you set up a new organization for CMSC388T/CMSC389T.
+# You should run this workflow after creating an empty organization. 
+
+name: Setup Organization
+
+on:
+  # Run this workflow with a manual trigger from GitHub Actions
+  workflow_dispatch:
+    inputs: 
+      organization:
+        description: "name of the organization"
+        required: true
+
+jobs:
+  # This job will create the teams for facilitators and all students.
+  create_teams:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Create Student Team
+      - name: Create Student Team
+        run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name='students'
+      
+      # Create Facilitators Team
+      - name: Create Student Team
+        run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name='facilitators'
+      
+  # This job will initialize a public and private repository for the class.
+  # The private repository will be used to store projects and code before
+  # they are released. The public repository will be used to publish 
+  # projects, code, and documentation for students. 
+  initalize_repos:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Create Public Repository
+      - name: Create Public Repository
+        run: echo 'Hello World' 
+
+      # Create Private Repository
+      - name: Create Private Repository
+        run: echo Hello World
