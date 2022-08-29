@@ -39,6 +39,7 @@ jobs:
   # projects, code, and documentation for students. 
   initalize_public_repo:
     runs-on: ubuntu-latest
+    needs: create_teams
     
     steps:
       # Create Public Repository
@@ -71,7 +72,8 @@ jobs:
 
   initalize_private_repo:
     runs-on: ubuntu-latest
-    
+    needs: [create_teams, initialize_public_repo]
+
     steps:
       # Create Private Repository
       - name: Create Private Repository
@@ -113,6 +115,7 @@ jobs:
   # This job will add all admins to the prganization and the facilitators team.
   add_admins:
     runs-on: ubuntu-latest
+    needs: [create_teams]
     
     steps:
       # Add facilitators to organization as admins
