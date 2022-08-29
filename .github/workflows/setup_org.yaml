@@ -19,10 +19,14 @@ jobs:
     steps:
       # Create Student Team
       - name: Create Student Team
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name='students'
       
       # Create Facilitators Team
       - name: Create Student Team
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name='facilitators'
       
   # This job will initialize a public and private repository for the class.
