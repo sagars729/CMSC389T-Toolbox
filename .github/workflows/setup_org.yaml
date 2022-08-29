@@ -11,6 +11,10 @@ on:
         description: "name of the organization"
         required: true
 
+      admins:
+        description: "space separated list of admins"
+        required: true
+
 jobs:
   # This job will create the teams for facilitators and all students.
   create_teams:
@@ -52,3 +56,17 @@ jobs:
         run: |
           gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta" --team "facilitators" --private
           gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/repos/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta" -F permission=push
+
+  # This job will add all admins to the prganization and the facilitators team.
+  add_admins:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Add facilitators to organization as admins
+      - name: Add Facilitators
+      env:
+        GH_TOKEN: ${{ secrets.TOKEN }}
+      run: |
+        for admin in ${{github.event.inputs.admins}}
+          do gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/memberships/$admin"
+        done
