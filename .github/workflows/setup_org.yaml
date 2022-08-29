@@ -62,6 +62,7 @@ jobs:
       
       - name: Setup Blank Repository
         run: |
+          git checkout -b main
           echo "# ${{github.event.inputs.organization}}" > README.md
           mkdir Projects
           echo "# Projects" > Projects/README.md
@@ -94,6 +95,7 @@ jobs:
       
       - name: Setup Blank Repository
         run: |
+          git checkout -b main
           echo "# ${{github.event.inputs.organization}}" > README.md
           mkdir Projects
           echo "# Projects" > Projects/README.md
@@ -103,6 +105,7 @@ jobs:
 
       - name: Link Public Repository
         run: |
+          git checkout -b main
           git submodule add "git@github.com:cmsc389T-spring22/${{github.event.inputs.organization}}.git" public
           git submodule init
           git submodule update
