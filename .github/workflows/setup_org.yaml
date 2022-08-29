@@ -21,13 +21,13 @@ jobs:
       - name: Create Student Team
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
-        run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name='students'
+        run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name="students"
       
       # Create Facilitators Team
       - name: Create Student Team
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
-        run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name='facilitators'
+        run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name="facilitators"
       
   # This job will initialize a public and private repository for the class.
   # The private repository will be used to store projects and code before
@@ -39,8 +39,12 @@ jobs:
     steps:
       # Create Public Repository
       - name: Create Public Repository
-        run: echo 'Hello World' 
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
+        run: gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" --team "facilitators" --public
 
       # Create Private Repository
       - name: Create Private Repository
-        run: echo Hello World
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
+        run: gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" --team "facilitators" --private
