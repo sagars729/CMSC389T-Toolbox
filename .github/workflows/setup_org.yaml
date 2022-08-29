@@ -28,16 +28,16 @@ jobs:
         run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name="students"
       
       # Create Facilitators Team
-      - name: Create Student Team
+      - name: Create Facilitators Team
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
         run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name="facilitators"
       
-  # This job will initialize a public and private repository for the class.
+  # These 2 jobs will initialize a public and private repository for the class.
   # The private repository will be used to store projects and code before
   # they are released. The public repository will be used to publish 
   # projects, code, and documentation for students. 
-  initalize_repos:
+  initalize_public_repo:
     runs-on: ubuntu-latest
     
     steps:
@@ -49,6 +49,29 @@ jobs:
           gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" --team "facilitators" --public
           gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/repos/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" -F permission=push
 
+      - name: Checkout Public Repository
+        uses: actions/checkout@master
+        with:
+          repository: '${{github.event.inputs.organization}}/${{github.event.inputs.organization}}'
+          token: ${{ secrets.TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "setup-bot@umd.cmsc389T"
+          git config --global user.name "Setup Bot"
+      
+      - name: Setup Blank Repository
+        run: |
+          echo "# ${{github.event.inputs.organization}}" > README.md
+          mkdir Projects
+          echo "# Projects" > Projects/README.md
+          git add .
+          git commit -m "Setup Bot: setup blank repository"
+          git push -u origin main
+
+  initalize_private_repo:
+    runs-on: ubuntu-latest
+    
       # Create Private Repository
       - name: Create Private Repository
         env:
@@ -56,6 +79,35 @@ jobs:
         run: |
           gh repo create "${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta" --team "facilitators" --private
           gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/repos/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta" -F permission=push
+
+      - name: Checkout Public Repository
+        uses: actions/checkout@master
+        with:
+          repository: '${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta'
+          token: ${{ secrets.TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "setup-bot@umd.cmsc389T"
+          git config --global user.name "Setup Bot"
+      
+      - name: Setup Blank Repository
+        run: |
+          echo "# ${{github.event.inputs.organization}}" > README.md
+          mkdir Projects
+          echo "# Projects" > Projects/README.md
+          git add .
+          git commit -m "Setup Bot: setup blank repository"
+          git push -u origin main
+
+      - name: Link Public Repository
+        run: |
+          git submodule add "git@github.com:cmsc389T-spring22/${{github.event.inputs.organization}}.git" public
+          git submodule init
+          git submodule update
+          git add .
+          git commit -m "Setup Bot: link public repository"
+          git push -u origin main
 
   # This job will add all admins to the prganization and the facilitators team.
   add_admins:
