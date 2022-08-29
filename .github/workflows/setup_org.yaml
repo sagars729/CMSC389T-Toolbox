@@ -50,7 +50,7 @@ jobs:
           gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/repos/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}" -F permission=push
 
       - name: Checkout Public Repository
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
         with:
           repository: '${{github.event.inputs.organization}}/${{github.event.inputs.organization}}'
           token: ${{ secrets.TOKEN }}
@@ -83,7 +83,7 @@ jobs:
           gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/facilitators/repos/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta" -F permission=push
 
       - name: Checkout Public Repository
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
         with:
           repository: '${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta'
           token: ${{ secrets.TOKEN }}
