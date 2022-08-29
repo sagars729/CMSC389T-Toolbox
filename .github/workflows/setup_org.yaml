@@ -72,6 +72,7 @@ jobs:
   initalize_private_repo:
     runs-on: ubuntu-latest
     
+    steps:
       # Create Private Repository
       - name: Create Private Repository
         env:
