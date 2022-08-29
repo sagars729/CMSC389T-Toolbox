@@ -5,7 +5,6 @@ name: Setup Organization
 
 on:
   # Run this workflow with a manual trigger from GitHub Actions
-  push:
   workflow_dispatch:
     inputs: 
       organization:
