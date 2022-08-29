@@ -5,6 +5,7 @@ name: Setup Organization
 
 on:
   # Run this workflow with a manual trigger from GitHub Actions
+  push:
   workflow_dispatch:
     inputs: 
       organization:
@@ -19,11 +20,13 @@ jobs:
     steps:
       # Create Student Team
       - name: Create Student Team
-        run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name='students'
+        run: echo Hello World 
+        # gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name='students'
       
       # Create Facilitators Team
       - name: Create Student Team
-        run: gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name='facilitators'
+        run: echo Hello world
+        # gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name='facilitators'
       
   # This job will initialize a public and private repository for the class.
   # The private repository will be used to store projects and code before
