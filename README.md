@@ -2,9 +2,8 @@
 
 ## Welcome!
 
-A toolbox for facilitating CMSC388T/CMSC389T. This toolbox will include important
-scripts and actions that are useful for managing CMSC388T/CMSC389T. This README
-will document how to use this toolbox. 
+This toolbox will include important scripts and actions that are useful for managing 
+CMSC388T/CMSC389T. This README will document how to use this toolbox. 
 
 ## Before you Start
 
