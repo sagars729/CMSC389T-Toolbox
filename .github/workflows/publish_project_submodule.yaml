@@ -1,0 +1,53 @@
+# This workflow will create a new repo from a template and add it to
+# the public student repo as a submodule
+
+name: Publish Project
+
+on:
+  push:
+  # Run this workflow with a manual trigger from GitHub Actions
+  workflow_dispatch:
+    inputs: 
+      organization:
+        description: "name of the organization"
+        required: true
+
+      project:
+        description: "name of project to add to"
+        required: true
+
+      template:
+        description: "template to create submodule from"
+        required: true
+
+      name:
+        description: "name of new submodule"
+        required: true
+
+jobs:
+  # This job will publish the project from the TA repo to the Public Repo
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Public Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          repository: '${{github.event.inputs.organization}}/${{github.event.inputs.organization}}'
+          token: ${{ secrets.TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "publish-bot@umd.cmsc389T"
+          git config --global user.name "Publish Bot"
+
+      - name: Create Repo From Template
+        run: gh repo create '${{github.event.inputs.organization}}/${{github.event.inputs.name}}' --template '${{github.event.inputs.template}}' --team 'facilitators' --public
+
+      - name: Add Submodule
+        run: | 
+          git submodule add 'https://github.com/${{github.event.inputs.organization}}/${{github.event.inputs.name}}.git' 'Projects/${{github.event.inputs.project}}/${{github.event.inputs.name}}' 
+          git add 'Projects/${{github.event.inputs.project}}/${{github.event.inputs.name}}'
+          git commit -m 'Publish Bot: Add Submodule ${{github.event.inputs.name}} to ${{github.event.inputs.project}}'
+          git push -u origin main
