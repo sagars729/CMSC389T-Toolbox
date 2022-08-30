@@ -43,6 +43,8 @@ jobs:
           git config --global user.name "Publish Bot"
 
       - name: Create Repo From Template
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
         run: gh repo create '${{github.event.inputs.organization}}/${{github.event.inputs.name}}' --template '${{github.event.inputs.template}}' --team 'facilitators' --public
 
       - name: Add Submodule
