@@ -35,11 +35,11 @@ jobs:
       
       - name: Pull Changes
         working-directory: public
-        run: git pull && ls
+        run: git pull
              
       - name: Copy Project
         run: | 
-          cp -r "Projects/${{github.event.inputs.project}}" "public/Projects/${{github.event.inputs.project}}"
+          cp -r "Projects/${{github.event.inputs.project}}" "public/Projects/"
 
       - name: Publish Changes
         run: | 
