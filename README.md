@@ -28,14 +28,13 @@ that hosts all repositories and teams for students and facilitators. The
 `Setup Organization` action will set up a new organization with teams and
 starter repositories. 
 
-### Parameters
+#### Parameters
 
 - organization: the name of the organization to set up
 - admins: a space separated list of admin github usernames
 
-### Example
+#### Example
 
-From the command line,
 ```bash
 gh workflow run 'Setup Organization' --ref main -f organization=cmsc389T-fall22 \
   -f admins='sagars729 nkrishnan19 username3 username4'
@@ -45,19 +44,41 @@ gh workflow run 'Setup Organization' --ref main -f organization=cmsc389T-fall22 
 
 For this class, we keep two repositories: a private TA repository that contains
 all projects before they are released (for internal development) and a public
-student repo that contains finalized polished versions of those projects. The
-`Publish Project` action allows facilitators to publish a project from the
+student repo that contains finalized polished versions of those projects. 
+
+### Publishing a Project
+The `Publish Project` action allows facilitators to publish a project from the
 private repository to the public repository.
 
-### Parameters
+#### Parameters
 
 - organization: the name of the organization that we are updating
 - project: the name of the project that is being published/updated
 
-### Example
+#### Example
 
-From the command line,
 ```bash
 gh workflow run 'Publish Project' --ref main -f organization=cmsc389T-fall22 \
   -f project=P0
+```
+
+### Adding a Submodule to a Project
+
+Some projects will require a linked submodule that is generated
+from a template repository. The `Publish Project Submodule` action
+creates a new repository in the organization from a template and 
+adds that new repo as a submodule to an existing project. 
+
+#### Parameters
+
+- organization: the name of the organization that we are updating
+- project: the name of the project that is being published/updated
+- template: the template repository used to create the new submodule
+- name: the new name of the submodule
+
+#### Example
+
+```bash
+gh workflow run 'Publish Project Submodule' --ref main -f organization=cmsc389T-fall22 \
+  -f project=P0 -f template=sagars729/git-java-setup-template --name=git-java-setup
 ```
