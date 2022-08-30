@@ -38,3 +38,22 @@ gh workflow run 'Setup Organization' --ref main -f organization=cmsc389T-fall22 
 
 You can also use the Actions tab to run the worfklow from GitHub with the same
 parameters.
+
+## Publishing Projects
+
+For this class, we keep two repositories: a private TA repository that contains
+all projects before they are released (for internal development) and a public
+student repo that contains finalized polished versions of those projects. The
+'Publish Project' action allows facilitators to publish a project from the
+private repository to the public repository. This action has two parameters:
+- organization: the name of the organization that we are updating
+- project: the name of the project that is being published/updated
+
+From the command line,
+```bash
+gh workflow run 'Publish Project' --ref main -f organization=cmsc389T-fall22 \
+  -f project=P0
+```
+
+You can also use the Actions tab to run the worfklow from GitHub with the same
+parameters.
