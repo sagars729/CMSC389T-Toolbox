@@ -41,6 +41,7 @@ jobs:
         run: cp -r "Projects/${{github.event.inputs.project}}" "public/Projects/"
 
       - name: Publish Changes
+        working-directory: public
         run: | 
           git add "Projects/${{github.event.inputs.project}}"
           git commit -m "Publish Bot: Publish ${{github.event.inputs.project}}"
