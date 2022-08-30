@@ -38,8 +38,7 @@ jobs:
         run: git pull
              
       - name: Copy Project
-        run: | 
-          cp -r "Projects/${{github.event.inputs.project}}" "public/Projects/"
+        run: cp -r "Projects/${{github.event.inputs.project}}" "public/Projects/"
 
       - name: Publish Changes
         run: | 
