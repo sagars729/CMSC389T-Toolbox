@@ -44,7 +44,9 @@ jobs:
       - name: Create Repo From Template
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
-        run: gh repo create '${{github.event.inputs.organization}}/${{github.event.inputs.name}}' --template '${{github.event.inputs.template}}' --team 'facilitators' --public
+        run: |
+          gh repo create '${{github.event.inputs.organization}}/${{github.event.inputs.name}}' --template '${{github.event.inputs.template}}' --public
+          gh api -X PUT '/orgs/${{github.event.inputs.organization}}/teams/facilitators/repos/${{github.event.inputs.organization}}/${{github.event.inputs.name}}' -F permission='push'
 
       - name: Add Submodule
         run: | 
