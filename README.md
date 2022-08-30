@@ -26,9 +26,14 @@ to run the scripts below.
 At the start of each semester, the facilitators need to create an organization
 that hosts all repositories and teams for students and facilitators. The
 `Setup Organization` action will set up a new organization with teams and
-starter repositories. This action has two parameters:
+starter repositories. 
+
+### Parameters
+
 - organization: the name of the organization to set up
 - admins: a space separated list of admin github usernames
+
+### Example
 
 From the command line,
 ```bash
@@ -36,24 +41,23 @@ gh workflow run 'Setup Organization' --ref main -f organization=cmsc389T-fall22 
   -f admins='sagars729 nkrishnan19 username3 username4'
 ```
 
-You can also use the Actions tab to run the worfklow from GitHub with the same
-parameters.
-
 ## Publishing Projects
 
 For this class, we keep two repositories: a private TA repository that contains
 all projects before they are released (for internal development) and a public
 student repo that contains finalized polished versions of those projects. The
-'Publish Project' action allows facilitators to publish a project from the
-private repository to the public repository. This action has two parameters:
+`Publish Project` action allows facilitators to publish a project from the
+private repository to the public repository.
+
+### Parameters
+
 - organization: the name of the organization that we are updating
 - project: the name of the project that is being published/updated
+
+### Example
 
 From the command line,
 ```bash
 gh workflow run 'Publish Project' --ref main -f organization=cmsc389T-fall22 \
   -f project=P0
 ```
-
-You can also use the Actions tab to run the worfklow from GitHub with the same
-parameters.
