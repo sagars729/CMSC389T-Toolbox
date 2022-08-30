@@ -1,0 +1,54 @@
+# This workflow will publish a project from the private TA repo
+# to the public student repo
+
+name: Publish Project
+
+on:
+  # Run this workflow with a manual trigger from GitHub Actions
+  workflow_dispatch:
+    inputs: 
+      organization:
+        description: "name of the organization"
+        required: true
+
+      project:
+        description: "name of project"
+        required: true
+
+jobs:
+  # This job will publish the project from the TA repo to the Public Repo
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Private Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          repository: '${{github.event.inputs.organization}}/${{github.event.inputs.organization}}-ta'
+          token: ${{ secrets.TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "publish-bot@umd.cmsc389T"
+          git config --global user.name "Publish Bot"
+      
+      - name: Pull Changes
+        working-directory: public
+        run: git pull
+
+      - name: Copy Project
+        run: | 
+          cp -r "Projects/${{github.event.inputs.project}}" "public/Projects/${{github.event.inputs.project}}"
+
+      - name: Publish Changes
+        run: | 
+          git add "Projects/${{github.event.inputs.project}}"
+          git commit -m "Publish Bot: Publish ${{github.event.inputs.project}}"
+          git push -u origin main
+
+      - name: Update Submodule Reference
+        run: |
+          git add public
+          git commit -m "Publish Bot: Released ${{github.event.inputs.project}}"
+          git push -u origin main
