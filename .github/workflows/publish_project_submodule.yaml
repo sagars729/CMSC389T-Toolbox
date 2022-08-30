@@ -1,5 +1,5 @@
 # This workflow will create a new repo from a template and add it to
-# the public student repo as a submodule
+# the public student repo as a submodule.
 
 name: Publish Project Submodule
 
