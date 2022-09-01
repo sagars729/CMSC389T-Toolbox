@@ -21,6 +21,13 @@ to run the scripts below.
 - Make sure to add a picture for the organization! We usually choose from 
   [Octodex](https://octodex.github.com).
 
+## Table of Contents
+
+- [Setting up an Organization](#Setting-up-an-Organization)
+- [Publishing Projects](#Publishing-Projects)
+  - [Publishing a Project](#Publishing-a-Project)
+  - [Adding a Submodule to a Published Project](#Adding-a-Submodule-to-a-Project)
+
 ## Setting up an Organization
 
 At the start of each semester, the facilitators need to create an organization
