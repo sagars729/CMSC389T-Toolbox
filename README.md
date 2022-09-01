@@ -21,6 +21,21 @@ to run the scripts below.
 - Make sure to add a picture for the organization! We usually choose from 
   [Octodex](https://octodex.github.com).
 
+## Table of Contents
+
+- [Actions](#Actions)
+  - [Setting up an Organization](#Setting-up-an-Organization)
+  - [Publishing Projects](#Publishing-Projects)
+    - [Publishing a Project](#Publishing-a-Project)
+    - [Adding a Submodule to a Published Project](#Adding-a-Submodule-to-a-Project)
+- [App Scripts](#App-Scripts)
+  - [Adding Students](#Adding-Students) 
+
+# Actions
+The actions below can be used to set up and manage the class organization on
+GitHub. They can run through the Actions tab on GitHub or by using the 
+`gh workflow run` command.
+
 ## Setting up an Organization
 
 At the start of each semester, the facilitators need to create an organization
@@ -82,3 +97,18 @@ adds that new repo as a submodule to an existing project.
 gh workflow run 'Publish Project Submodule' --ref main -f organization=cmsc389T-fall22 \
   -f project=P0 -f template=sagars729/git-java-setup-template --name=git-java-setup
 ```
+
+# App Scripts
+
+## Adding Students
+
+Each semester starts with a Google Form that is used to collect student
+information and GitHub usernames. The `add_students.gs` can be linked to
+this form to automate adding students to the GitHub organization. The 4
+constants will need to be configured to provide the necessary parameters
+to GitHub:
+
+- username_field: the title of the field that contains the Github Username
+- students_team: the name of the students team (usually `Students`)
+- organization: the name of the organization (e.x. `cmsc389T-fall22`)
+- github_token: the personal access token with admin access on the org
