@@ -45,8 +45,8 @@ jobs:
           GH_TOKEN: ${{ secrets.TOKEN }}
         run: |
           TEAM=`gh api -X GET "/orgs/${{github.event.inputs.organization}}/teams/${{github.event.inputs.team}}" --jq ".id"`
-          gh api -X POST "/orgs/${{github.event.inputs.organization}}/repos" -F name=$1 -F private=true -F team_id=$TEAM
-          gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/${{github.event.inputs.team}}/repos/${{github.event.inputs.organization}}/$1" -F permission=push
+          gh api -X POST "/orgs/${{github.event.inputs.organization}}/repos" -F name=${{github.event.inputs.team}} -F private=true -F team_id=$TEAM
+          gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/${{github.event.inputs.team}}/repos/${{github.event.inputs.organization}}/${{github.event.inputs.team}}" -F permission=push
       
       - name: Configure Git
         run: |
