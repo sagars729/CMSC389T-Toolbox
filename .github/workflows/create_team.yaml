@@ -3,6 +3,7 @@
 name: Create Team
 
 on:
+  push:
   # Run this workflow with a manual trigger from GitHub Actions
   workflow_dispatch:
     inputs: 
