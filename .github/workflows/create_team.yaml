@@ -1,0 +1,79 @@
+# This workflow will create a new team 
+
+name: Create Team
+
+on:
+  # Run this workflow with a manual trigger from GitHub Actions
+  workflow_dispatch:
+    inputs: 
+      organization:
+        description: "name of the organization"
+        required: true
+        
+      team:
+        description: "name of the team"
+        required: true
+      
+      members:
+        description: "space separated list of member usernames"
+        required: true
+
+jobs:
+  # This job will publish the project from the TA repo to the Public Repo
+  create_team:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Create Team Within Students Team
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          PARENT_TEAM=`gh api -X GET "/orgs/${{github.event.inputs.organization}}/teams/students" --jq ".id"`
+          gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name=${{github.event.inputs.team}} -F parent_team_id=$PARENT_TEAM
+
+      - name: Add Students to New Team
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          for student in ${{github.event.inputs.members}}
+          do
+            gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/${{github.event.inputs.team}}/memberships/$student" 
+          done
+      
+      - name: Create Team Repository
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          TEAM=`gh api -X GET "/orgs/${{github.event.inputs.organization}}/teams/${{github.event.inputs.team}}" --jq ".id"`
+          gh api -X POST "/orgs/${{github.event.inputs.organization}}/repos" -F name=${{github.event.inputs.team}} -F private=true -F team_id=$TEAM
+          gh api -X PUT "/orgs/${{github.event.inputs.organization}}/teams/${{github.event.inputs.team}}/repos/${{github.event.inputs.organization}}/${{github.event.inputs.team}}" -F permission=push
+      
+      - name: Configure Git
+        run: |
+          git config --global user.email "setup-bot@umd.cmsc389T"
+          git config --global user.name "Setup Bot"
+      
+      - name: Mirror Public Repository
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          git clone --bare https://github.com/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}.git
+          cd ${{github.event.inputs.organization}}.git
+          git push --mirror https://${{secrets.TOKEN}}@github.com/${{github.event.inputs.organization}}/${{github.event.inputs.team}}.git
+          cd ..
+          rm -rf ${{github.event.inputs.organization}}.git
+      
+      - name: Checkout Team Repository
+        uses: actions/checkout@v3
+        with:
+          repository: '${{github.event.inputs.organization}}/${{github.event.inputs.team}}'
+          token: ${{ secrets.TOKEN }}
+      
+      - name: Create Feature Branches
+        run: |
+          git checkout -b FTR-pacman
+          git push -u origin FTR-pacman
+          git checkout -b FTR-ghost
+          git push -u origin FTR-ghost
+          git checkout -b FTR-map
+          git push -u origin FTR-map

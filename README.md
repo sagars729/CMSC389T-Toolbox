@@ -28,6 +28,9 @@ to run the scripts below.
   - [Publishing Projects](#Publishing-Projects)
     - [Publishing a Project](#Publishing-a-Project)
     - [Adding a Submodule to a Published Project](#Adding-a-Submodule-to-a-Project)
+  - [Creating a Student Team](#Creating-a-Student-Team)
+    - [Create a Student Team](#Create-a-Student-Team)
+    - [Update a Student Team](#Update-a-Student-Team)
 - [App Scripts](#App-Scripts)
   - [Adding Students](#Adding-Students) 
 - [Gradescope](#Gradescope)
@@ -97,6 +100,49 @@ adds that new repo as a submodule to an existing project.
 ```bash
 gh workflow run 'Publish Project Submodule' --ref main -f organization=cmsc389T-fall22 \
   -f project=P0 -f template=sagars729/git-java-setup-template --name=git-java-setup
+```
+
+## Creating a Student Team
+
+The group projects require creating individual student teams and 
+repositories. These teams are nested in the `students` team and 
+the repositories are mirrors of the public class repository. 
+
+### Create a Student Team
+
+The `Create Team` action creates a new team and repository for an
+individual team. 
+
+#### Parameters
+
+- organization: the name of the organization that we are updating
+- team: the name of the team that is being created
+- members: a space separated list of members
+
+#### Example
+
+```bash
+gh workflow run 'Create Team' --ref main -f organization=cmsc389T-fall22 \
+  -f team=Team0 -f members="sagars729 nkrishnan19"
+```
+
+### Update a Student Team
+
+The `Update Team` updates a team repository with new changes that
+have been pushed to the public repository. As new projects are
+released/updated, this action needs to be run to update all team 
+repos.
+
+#### Parameters
+
+- organization: the name of the organization that we are updating
+- team: the name of the team that is being created
+
+#### Example
+
+```bash
+gh workflow run 'Update Team' --ref main -f organization=cmsc389T-fall22 \
+  -f team=Team0
 ```
 
 # App Scripts
