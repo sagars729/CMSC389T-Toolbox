@@ -30,6 +30,7 @@ to run the scripts below.
     - [Adding a Submodule to a Published Project](#Adding-a-Submodule-to-a-Project)
 - [App Scripts](#App-Scripts)
   - [Adding Students](#Adding-Students) 
+- [Gradescope](#Gradescope)
 
 # Actions
 The actions below can be used to set up and manage the class organization on
@@ -112,3 +113,44 @@ to GitHub:
 - students_team: the name of the students team (usually `Students`)
 - organization: the name of the organization (e.x. `cmsc389T-fall22`)
 - github_token: the personal access token with admin access on the org
+
+# Gradescope
+
+To grade projects efficiently and eliminate turnaround time for providing
+students feedback, we have automated grading via gradescope.
+
+## Submissions
+
+Instead of a code submission, the necessary data we need for autograding is
+one of or a combination of
+- A GitHub Repository link (e.x. `https://github.com/sagars729/MyRepo`)
+- A GitHub Username (e.x. `sagars729`)
+- A Team Name (e.x. `Team1`)
+
+Example 1: For the PacMan project we need the student's GitHub username and
+team. An example `submission.txt` file would look like:
+
+```
+sagars729
+Team1
+```
+
+Example 2: For the HelloWorld project, we need the student's repository. An
+example `submission.txt` file would look like:
+
+```
+https://github.com/sagars729/HelloWorld
+```
+
+## Generating an Existing Gradescope Autograder
+
+The `Gradescope` folder contains all autograders we have used in the past.
+To create a new autograder,
+
+```bash
+cd Gradescope/{project}
+zip ~/Downloads/{project}.zip *
+```
+
+This will create a new zip file with your autograder in your `Downloads`
+folder. 
