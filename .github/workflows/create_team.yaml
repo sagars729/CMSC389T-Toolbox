@@ -3,7 +3,6 @@
 name: Create Team
 
 on:
-  push:
   # Run this workflow with a manual trigger from GitHub Actions
   workflow_dispatch:
     inputs: 
@@ -29,8 +28,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          PARENT_TEAM=`gh api -X GET "/orgs/${{github.event.inputs.organization}}}/teams/students" --jq ".id"`
-          gh api -X POST "/orgs/${{github.event.inputs.organization}}}/teams" -F name=${{github.event.inputs.team}}} -F parent_team_id=$PARENT_TEAM
+          PARENT_TEAM=`gh api -X GET "/orgs/${{github.event.inputs.organization}}/teams/students" --jq ".id"`
+          gh api -X POST "/orgs/${{github.event.inputs.organization}}/teams" -F name=${{github.event.inputs.team}} -F parent_team_id=$PARENT_TEAM
 
       - name: Add Students to New Team
         env:
