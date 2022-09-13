@@ -1,0 +1,43 @@
+# This workflow will update a team repo with new code in the public
+# class repository
+
+name: Update Team
+
+on:
+  push:
+  # Run this workflow with a manual trigger from GitHub Actions
+  workflow_dispatch:
+    inputs: 
+      organization:
+        description: "name of the organization"
+        required: true
+
+      team:
+        description: "name of team"
+        required: true
+
+jobs:
+  # This job will update the team repository
+  update:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Private Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          repository: '${{github.event.inputs.organization}}/${{github.event.inputs.team}}'
+          token: ${{ secrets.TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "update-bot@umd.cmsc389T"
+          git config --global user.name "Update Bot"
+      
+      - name: Pull Upstream Changes
+        run: |
+          git remote add upstream https://github.com/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}
+          git pull upstream main
+             
+      - name: Update With Upstream Changes
+        run: git push -u origin main
