@@ -1,9 +1,8 @@
 # This workflow will create a new team 
 
-name: Publish Project
+name: Create Team
 
 on:
-  push:
   # Run this workflow with a manual trigger from GitHub Actions
   workflow_dispatch:
     inputs: 
