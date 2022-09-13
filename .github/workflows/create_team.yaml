@@ -57,9 +57,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          git clone --bare https://github.com:${{github.event.inputs.organization}}/${{github.event.inputs.organization}}.git
+          git clone --bare https://github.com/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}.git
           cd ${{github.event.inputs.organization}}.git
-          git push --mirror https://${{secrets.TOKEN}}@github.com:${{github.event.inputs.organization}}/${{github.event.inputs.team}}.git
+          git push --mirror https://${{secrets.TOKEN}}@github.com/${{github.event.inputs.organization}}/${{github.event.inputs.team}}.git
           cd ..
           rm -rf ${{github.event.inputs.organization}}.git
       
