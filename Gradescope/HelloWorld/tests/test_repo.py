@@ -28,14 +28,3 @@ class TestRepo(unittest.TestCase):
         response = requests.get(f"https://api.github.com/repos/{slug}")
         self.assertEqual(response.status_code, 200,
                          "Repository Does Not Exist")
-
-    @weight(5)
-    @number("1.3")
-    def test_readme_contains_hello_world(self):
-        """Check if README is correct"""
-        slug = self.get_slug()
-        response = requests.get(f"https://api.github.com/repos/{slug}/contents/README.md")
-        self.assertEqual(response.status_code, 200,
-                         "README Does Not Exist")
-        text = base64.b64decode(response.json()['content']).decode()
-        self.assertIn("Hello World", text, "README does not contain Hello World")
