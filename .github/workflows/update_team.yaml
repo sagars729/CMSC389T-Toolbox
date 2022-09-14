@@ -36,7 +36,7 @@ jobs:
         run: |
           git config --global user.email "update-bot@umd.cmsc389T"
           git config --global user.name "Update Bot"
-          git config pull.rebase false
+          git config --global pull.rebase false
       
       - name: Pull Upstream Changes
         run: |
