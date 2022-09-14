@@ -46,6 +46,7 @@ jobs:
       
       - name: Update Affected Branches
         run: |
+          git branch
           for branch in ${{github.event.inputs.branches}}
           do
             git checkout $branch
