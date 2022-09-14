@@ -14,6 +14,10 @@ on:
       team:
         description: "name of team"
         required: true
+      
+      branches:
+        description: "affected branches"
+        required: false
 
 jobs:
   # This job will update the team repository
