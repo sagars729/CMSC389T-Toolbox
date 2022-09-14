@@ -36,7 +36,15 @@ jobs:
       - name: Pull Upstream Changes
         run: |
           git remote add upstream https://github.com/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}
-          git pull upstream main
-             
+          git pull upstream main         
       - name: Update With Upstream Changes
         run: git push -u origin main
+      
+      - name: Update Affected Branches
+        run: |
+          for branch in ${{github.event.inputs.branches}}
+          do
+            git checkout $branch
+            git merge main
+            git push -u origin $branch
+          done
