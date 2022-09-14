@@ -46,10 +46,9 @@ jobs:
       
       - name: Update Affected Branches
         run: |
-          git pull
           for branch in ${{github.event.inputs.branches}}
           do
-            echo "$branch"
+            git pull origin $branch --allow-unrelated-histories
             git checkout $branch
             git merge main
             git push -u origin $branch
