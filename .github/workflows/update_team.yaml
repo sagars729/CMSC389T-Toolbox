@@ -36,11 +36,13 @@ jobs:
         run: |
           git config --global user.email "update-bot@umd.cmsc389T"
           git config --global user.name "Update Bot"
+          git config pull.rebase false
       
       - name: Pull Upstream Changes
         run: |
           git remote add upstream https://github.com/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}
-          git pull upstream main         
+          git pull upstream main --allow-unrelated-histories
+   
       - name: Update With Upstream Changes
         run: git push -u origin main
       
