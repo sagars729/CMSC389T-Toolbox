@@ -1,1 +1,5 @@
 __pycache__/
+.token
+roster.json
+results.json
+submission.txt
