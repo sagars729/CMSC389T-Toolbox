@@ -137,12 +137,13 @@ repos.
 
 - organization: the name of the organization that we are updating
 - team: the name of the team that is being created
+- branches (optional): branches that need to be updated (other than main) 
 
 #### Example
 
 ```bash
 gh workflow run 'Update Team' --ref main -f organization=cmsc389T-fall22 \
-  -f team=Team0
+  -f team=Team0 -f branches='FTR-pacman FTR-ghost FTR-map'
 ```
 
 # App Scripts
