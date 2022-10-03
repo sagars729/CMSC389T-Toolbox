@@ -7,8 +7,8 @@ HEADERS = {
   'Authorization': f'Bearer {GH_TOKEN}'
 }
 
-def request_github(path):
-    return requests.get(f"https://api.github.com/{path}", headers=HEADERS)
+def request_github(path, params={}):
+    return requests.get(f"https://api.github.com/{path}", headers=HEADERS, params=params)
 
 def request_graphql(data={}):
     return requests.post(f"https://api.github.com/graphql", headers=HEADERS,
