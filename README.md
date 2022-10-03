@@ -34,6 +34,9 @@ to run the scripts below.
 - [App Scripts](#App-Scripts)
   - [Adding Students](#Adding-Students) 
 - [Gradescope](#Gradescope)
+  - [Submissions](#Submissions)
+  - [Generating an Existing Gradescope Autograder](#Generating-an-Existing-Gradescope-Autograder)
+  - [Add Honor Code Violation Test](#Add-Honor-Code-Violation-Test)
 
 # Actions
 The actions below can be used to set up and manage the class organization on
@@ -195,8 +198,25 @@ To create a new autograder,
 
 ```bash
 cd Gradescope/{project}
+echo {github_token} > .token
 zip ~/Downloads/{project}.zip *
 ```
 
 This will create a new zip file with your autograder in your `Downloads`
 folder. 
+
+## Add Honor Code Violation Test
+
+It is possible for students to abuse the Gradescope to submit a different
+url/username/team than they are currently in. To avoid this, we've created
+a secret test that checks the gradescope user against their submission. 
+You will need to include a `roster.json` file in the project folder before
+you zip the autograder.
+
+Example `roster.json` file:
+```json
+{
+  "directory_id": "github_username",
+  "ssaxena1": "sagars729"
+}
+```
