@@ -1,0 +1,33 @@
+# This workflow changes the permissions of team repositories
+# from private to public in a given organization
+
+name: Post Team Repositories
+
+on:
+  # Run this workflow with a manual trigger from GitHub Actions
+  workflow_dispatch:
+    inputs: 
+      organization:
+        description: "name of the organization"
+        required: true
+
+      teams:
+        description: "list of teams"
+        required: true
+
+  push:
+
+jobs:
+  # This job will publish the project from the TA repo to the Public Repo
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Patch team repos to be public
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          for team in ${{github.event.inputs.teams}}
+          do
+            gh api -X PATCH "/repos/${{github.event.inputs.organization}}/$team" -F private=false
+          done
