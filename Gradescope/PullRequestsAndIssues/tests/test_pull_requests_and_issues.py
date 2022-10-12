@@ -17,7 +17,7 @@ class TestPullRequestsAndIssues(unittest.TestCase):
       
       # load reviewer comments and status
       pull_request_reviews = request_github(
-          f"repos/cmsc389T-fall22/Lecture3/pulls/{pull_num}/reviews")
+          f"repos/cmsc389T-fall22/Lecture3/pulls/{pull_num}/reviews", {'per_page': 80})
       self.assertEqual(pull_request_reviews.status_code, 200,
                   "Unable To Find Pull Request Reviews")
       pull_request_reviews = pull_request_reviews.json()
@@ -74,7 +74,8 @@ class TestPullRequestsAndIssues(unittest.TestCase):
       }).json()['data']['node']['items']['nodes']
       self.project_cards = {card['content']['assignees']['nodes'][0]['login']:
         {'title': card['content']['title'], 'body': card['content']['body']}
-        for card in self.project_cards} 
+        for card in self.project_cards
+        if len(card['content']['assignees']['nodes']) > 0} 
       
     @weight(1)
     @number("1.1")
