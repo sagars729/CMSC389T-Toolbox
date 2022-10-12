@@ -7,6 +7,7 @@ HEADERS = {
   'Authorization': f'Bearer {GH_TOKEN}'
 }
 
+
 def request_github(path, params={}):
     return requests.get(f"https://api.github.com/{path}", headers=HEADERS, params=params)
 

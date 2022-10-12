@@ -14,6 +14,10 @@ on:
       team:
         description: "name of team"
         required: true
+      
+      branches:
+        description: "affected branches"
+        required: false
 
 jobs:
   # This job will update the team repository
@@ -32,11 +36,22 @@ jobs:
         run: |
           git config --global user.email "update-bot@umd.cmsc389T"
           git config --global user.name "Update Bot"
+          git config --global pull.rebase false
       
       - name: Pull Upstream Changes
         run: |
           git remote add upstream https://github.com/${{github.event.inputs.organization}}/${{github.event.inputs.organization}}
-          git pull upstream main
-             
+          git pull upstream main --allow-unrelated-histories
+   
       - name: Update With Upstream Changes
         run: git push -u origin main
+      
+      - name: Update Affected Branches
+        run: |
+          for branch in ${{github.event.inputs.branches}}
+          do
+            git pull origin $branch --allow-unrelated-histories
+            git checkout $branch
+            git merge main
+            git push -u origin $branch
+          done
