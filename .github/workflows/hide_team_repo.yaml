@@ -1,0 +1,31 @@
+# This workflow changes the permissions of team repositories
+# from public to private in a given organization
+
+name: Hide Team Repos
+
+on:
+  # Run this workflow with a manual trigger from GitHub Actions
+  workflow_dispatch:
+    inputs: 
+      organization:
+        description: "name of the organization"
+        required: true
+
+      teams:
+        description: "list of teams"
+        required: true
+
+jobs:
+  # This job will patch the team repositories to be private
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Patch team repos to be private
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          for team in ${{github.event.inputs.teams}}
+          do
+            gh api -X PATCH "/repos/${{github.event.inputs.organization}}/$team" -F private=true
+          done

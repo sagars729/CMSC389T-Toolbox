@@ -20,6 +20,8 @@ to run the scripts below.
 - We usually name our organizations `cmsc38{X}T-{season}{year}` e.x. `cmsc389T-fall22`
 - Make sure to add a picture for the organization! We usually choose from 
   [Octodex](https://octodex.github.com).
+- Make sure to set the base permissions for the organization to `None`, otherwise students
+  will be able to see the TA repo!
 
 ## Table of Contents
 
@@ -31,6 +33,9 @@ to run the scripts below.
   - [Creating a Student Team](#Creating-a-Student-Team)
     - [Create a Student Team](#Create-a-Student-Team)
     - [Update a Student Team](#Update-a-Student-Team)
+  - [Changing Team Repo Visibility](#Changing-Team-Repo-Visibility)
+    - [Post Team Repos](#Post-Team-Repos)
+    - [Hide Team Repos](#Hide-Team-Repos)
 - [App Scripts](#App-Scripts)
   - [Adding Students](#Adding-Students) 
 - [Gradescope](#Gradescope)
@@ -147,6 +152,45 @@ repos.
 ```bash
 gh workflow run 'Update Team' --ref main -f organization=cmsc389T-fall22 \
   -f team=Team0 -f branches='FTR-pacman FTR-ghost FTR-map'
+```
+
+## Changing Repo Visibility
+
+### Post Team Repos
+
+The `Post Team Repos` changes the visibility of team repositories from
+private to public. As students complete the PacMan project and need to
+be able to fork partner team repos, all team repos need to be made public.
+This can be done with this action.
+
+#### Parameters
+
+- organization: the name of the organization that we are updating
+- teams: space separated list of teams that are being changed to public
+
+#### Example
+
+```bash
+gh workflow run 'Post Team Repos' --ref main -f organization=cmsc389T-fall22 \
+  -f teams='Team0 Team1 Team2 Team3 Team4 Team5'
+```
+
+### Hide Team Repos
+
+The `Hide Team Repos` changes the visibility of team repositories from
+public to private. As the semester ends, all team repos need to be made 
+private before the next semester. This can be done with this action.
+
+#### Parameters
+
+- organization: the name of the organization that we are updating
+- teams: space separated list of teams that are being changed to private
+
+#### Example
+
+```bash
+gh workflow run 'Hide Team Repos' --ref main -f organization=cmsc389T-fall22 \
+  -f teams='Team0 Team1 Team2 Team3 Team4 Team5'
 ```
 
 # App Scripts
