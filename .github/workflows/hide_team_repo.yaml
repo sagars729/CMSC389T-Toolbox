@@ -15,8 +15,6 @@ on:
         description: "list of teams"
         required: true
 
-  push:
-
 jobs:
   # This job will patch the team repositories to be private
   publish:
