@@ -7,7 +7,7 @@ GH_TOKEN = open(".token").readline().strip()
 HEADERS = {
   'Authorization': f'Bearer {GH_TOKEN}'
 }
-ORG = "cmsc389T-fall22"
+ORG = "cmsc389T-winter23"
 JUNIT = f"https://github.com/{ORG}/git-java-setup/raw/main/junit-4.10.jar"
 
 def request_github(path, params={}):

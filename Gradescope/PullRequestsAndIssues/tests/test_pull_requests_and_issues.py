@@ -1,7 +1,7 @@
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number
 
-from utils import request_github, request_graphql
+from utils import request_github, request_graphql, ORG
 import base64
 import json
 
@@ -10,14 +10,14 @@ class TestPullRequestsAndIssues(unittest.TestCase):
     def load_pull_request_reviews(self, pull_num):
       # load reviewers
       pull_request = request_github(
-          f"repos/cmsc389T-fall22/Lecture3/pulls/{pull_num}")
+          f"repos/{ORG}/Lecture2/pulls/{pull_num}")
       self.assertEqual(pull_request.status_code, 200,
                        f"Unable To Find Pull Request {pull_num}")
       self.requested_reviewers += pull_request.json()["requested_reviewers"]
       
       # load reviewer comments and status
       pull_request_reviews = request_github(
-          f"repos/cmsc389T-fall22/Lecture3/pulls/{pull_num}/reviews", {'per_page': 80})
+          f"repos/{ORG}/Lecture2/pulls/{pull_num}/reviews", {'per_page': 80})
       self.assertEqual(pull_request_reviews.status_code, 200,
                   "Unable To Find Pull Request Reviews")
       pull_request_reviews = pull_request_reviews.json()
@@ -39,13 +39,13 @@ class TestPullRequestsAndIssues(unittest.TestCase):
       self.project_id = request_graphql({'query':
           """
           query {
-            organization(login: \"cmsc389T-fall22\") {
+            organization(login: \"%s\") {
               projectV2(number: 17) {
                 id
               }
             }
           }
-          """
+          """ % (ORG,)
       }).json()['data']['organization']['projectV2']['id']
       self.project_cards = request_graphql({'query':
           """

@@ -1,7 +1,7 @@
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number
 
-from utils import request_github, request_graphql, read_submission
+from utils import request_github, request_graphql, read_submission, ORG
 import base64
 import json
 
@@ -10,7 +10,7 @@ def get_project_id(team):
   projects = request_graphql({'query':
       """
       query {
-        organization(login: \"cmsc389T-fall22\") {
+        organization(login: \"%s\") {
           projectsV2(first: 50) {
             nodes {
               id
@@ -19,7 +19,7 @@ def get_project_id(team):
           }
         }
       }
-      """
+      """ % (ORG,)
   }).json()['data']['organization']['projectsV2']['nodes']
 
   projects = [project for project in projects

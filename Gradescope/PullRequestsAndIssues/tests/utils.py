@@ -6,7 +6,7 @@ GH_TOKEN = open(".token").readline().strip()
 HEADERS = {
   'Authorization': f'Bearer {GH_TOKEN}'
 }
-
+ORG = "cmsc389T-winter23"
 
 def request_github(path, params={}):
     return requests.get(f"https://api.github.com/{path}", headers=HEADERS, params=params)
