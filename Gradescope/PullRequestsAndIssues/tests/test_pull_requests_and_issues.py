@@ -1,7 +1,7 @@
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number
 
-from utils import request_github, request_graphql, ORG
+from utils import request_github, request_graphql, ORG, PR_NUMS, PROJECT_NUM
 import base64
 import json
 
@@ -32,7 +32,7 @@ class TestPullRequestsAndIssues(unittest.TestCase):
       # load pull request reviews
       self.requested_reviewers = []
       self.pull_request_reviews = {}
-      for pull_num in [1, 28, 31, 34]:
+      for pull_num in PR_NUMS:
         self.load_pull_request_reviews(pull_num)
 
       # load project cards
@@ -40,12 +40,12 @@ class TestPullRequestsAndIssues(unittest.TestCase):
           """
           query {
             organization(login: \"%s\") {
-              projectV2(number: 17) {
+              projectV2(number: %d) {
                 id
               }
             }
           }
-          """ % (ORG,)
+          """ % (ORG, PROJECT_NUM)
       }).json()['data']['organization']['projectV2']['id']
       self.project_cards = request_graphql({'query':
           """
@@ -75,7 +75,8 @@ class TestPullRequestsAndIssues(unittest.TestCase):
       self.project_cards = {card['content']['assignees']['nodes'][0]['login']:
         {'title': card['content']['title'], 'body': card['content']['body']}
         for card in self.project_cards
-        if len(card['content']['assignees']['nodes']) > 0} 
+        if 'assignees' in card['content'] and 
+        len(card['content']['assignees']['nodes']) > 0}
       
     @weight(1)
     @number("1.1")

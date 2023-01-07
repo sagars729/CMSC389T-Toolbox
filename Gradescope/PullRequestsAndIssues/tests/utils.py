@@ -7,6 +7,8 @@ HEADERS = {
   'Authorization': f'Bearer {GH_TOKEN}'
 }
 ORG = "cmsc389T-winter23"
+PR_NUMS = ["4", "5", "6", "7"]
+PROJECT_NUM = 13
 
 def request_github(path, params={}):
     return requests.get(f"https://api.github.com/{path}", headers=HEADERS, params=params)
