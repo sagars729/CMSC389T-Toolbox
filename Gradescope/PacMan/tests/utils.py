@@ -6,6 +6,7 @@ import os
 ################ CHANGE BELOW CONSTANTS ###############
 
 ORG = "cmsc389T-winter23" # name of the organization
+PROJECT = "P1" # name of the project folder
 
 ###################### END CHANGES ####################
 
