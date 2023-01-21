@@ -1,7 +1,7 @@
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number, visibility 
 
-from utils import request_github, request_graphql, read_submission
+from utils import request_github, request_graphql, read_submission, ORG
 import base64
 import json
 
@@ -56,9 +56,8 @@ def load_pull_requests(user, slug):
 class TestPullRequests(unittest.TestCase):
 
     def setUp(self):
-      self.gh_username, self.gh_team, self.gh_fork = read_submission() 
-      self.pull_requests = load_pull_requests(self.gh_username, f'cmsc389T-fall22/{self.gh_team}')
-      self.pull_requests += load_pull_requests(self.gh_username, self.gh_fork)
+      self.gh_username, self.gh_team = read_submission() 
+      self.pull_requests = load_pull_requests(self.gh_username, f'{ORG}/{self.gh_team}')
       self.bases = set([pr["base"] for pr in self.pull_requests])
 
       self.assigned = {base:False for base in self.bases}
@@ -105,13 +104,6 @@ class TestPullRequests(unittest.TestCase):
       self.assertTrue(self.assigned["ftr-sabotage"],
                      "Not assigned to a Sabotage FTR item Request")
         
-    @weight(3)
-    @number("1.3")
-    def test_assigned_fix_pull_request(self):
-      "Assigned to Fix FTR-item -> FTR Pull Request"
-      self.assertTrue(self.assigned["ftr-map"],
-                      "Not assigned to a Map FTR item Pull Request")
-     
     @weight(2)
     @number("1.4")
     def test_requested_reviewers_actions_pull_request(self):
@@ -127,13 +119,6 @@ class TestPullRequests(unittest.TestCase):
                       "No reviewers on Sabotage FTR-item Pull Requests")
      
     @weight(2)
-    @number("1.6")
-    def test_requested_reviewers_fix_pull_request(self):
-      "Requested Reviewers to Fix FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewers["ftr-fix"],
-                      "No reviewers on Fix FTR-item Pull Requests")
-
-    @weight(2)
     @number("2.1")
     def test_approved_before_merge_actions_pull_request(self):
       "Approval Before Merge for Actions FTR-item -> FTR Pull Request"
@@ -144,12 +129,6 @@ class TestPullRequests(unittest.TestCase):
     def test_approved_before_merge_sabotage_pull_request(self):
       "Approval Before Merge for Sabotage FTR-item -> FTR Pull Request"
       self.assertTrue(self.approved["ftr-sabotage"])
-
-    @weight(2)
-    @number("2.3")
-    def test_approved_before_merge_fix_pull_request(self):
-      "Approval Before Merge for Fix FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-fix"])
 
     @weight(3)
     @number("2.4")
@@ -163,12 +142,6 @@ class TestPullRequests(unittest.TestCase):
       "Merged Sabotage FTR-item -> FTR Pull Request"
       self.assertTrue(self.approved["ftr-sabotage"])
 
-    @weight(3)
-    @number("2.6")
-    def test_merged_fix_pull_request(self):
-      "Merged Fix FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-fix"])
-
     @weight(5)
     @number("3.1")
     def test_approved_actions_pull_request(self):
@@ -180,9 +153,3 @@ class TestPullRequests(unittest.TestCase):
     def test_approved_sabotage_pull_request(self):
       "Approved Sabotage FTR-item -> FTR Pull Request"
       self.assertTrue(self.reviewed["ftr-sabotage"])
-
-    @weight(5)
-    @number("3.3")
-    def test_approved_fix_pull_request(self):
-      "Approved Fix FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewed["ftr-fix"])
