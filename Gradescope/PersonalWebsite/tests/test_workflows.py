@@ -2,7 +2,7 @@ import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number, visibility 
 
 from utils import request_github, post_github, read_submission,\
-  read_submission_links, download_repo, push_update
+  read_submission_links, download_repo, push_update, ORG, TEMPLATE
 import base64
 import json
 import time
@@ -85,8 +85,8 @@ class TestWorkflows(unittest.TestCase):
       "Forked Class Repo"
       repo_details = request_github(f"repos/{self.slug}").json()
       self.assertTrue(repo_details['fork'], "Repository was Not Forked")
-      self.assertEqual(repo_details['parent']['full_name'],
-                       "cmsc389T-fall22/CMSC389T-Web-Template",
+      self.assertEqual(repo_details['parent']['full_name'].lower(),
+                       f"{ORG}/{TEMPLATE}".lower(),
                        "Class Repository was Not Forked")
 
     @weight(20)
