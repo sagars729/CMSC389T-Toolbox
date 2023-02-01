@@ -1,9 +1,8 @@
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number
 
-from utils import request_github, request_graphql, read_submission, ORG
-import base64
-import json
+from utils import request_github, request_graphql, read_submission
+from constants import ORG
 
 
 def get_project_id(team):
@@ -72,7 +71,7 @@ def load_project_cards(project_id):
 class TestIssues(unittest.TestCase):
 
     def setUp(self):
-      self.gh_username, self.gh_team = read_submission()
+      self.gh_username, self.gh_team, _ = read_submission()
       self.project_id = get_project_id(self.gh_team)
       self.cards = load_project_cards(self.project_id)
 

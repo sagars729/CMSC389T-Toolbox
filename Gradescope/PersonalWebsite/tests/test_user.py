@@ -1,12 +1,12 @@
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number, visibility
-from utils import request_github
+from utils import request_github, read_submission
 import json
 
 
 class TestUser(unittest.TestCase):
     def setUp(self):
-      self.gh_username = open("submission.txt").readline().strip()
+      self.gh_username, _ = read_submission()
       self.metadata = json.load(open("submission_metadata.json"))
       self.user_email = self.metadata["users"][0]["email"]
       self.username = self.user_email.split("@")[0]
@@ -16,6 +16,5 @@ class TestUser(unittest.TestCase):
     @number("0.1")
     @visibility('hidden')
     def test_invalid_username(self):
-      self.assertTrue(False)
-      # self.assertIn(self.username, self.roster)
-      # self.assertNotEqual(self.roster[self.username], self.gh_username)
+      self.assertIn(self.username, self.roster)
+      self.assertNotEqual(self.roster[self.username], self.gh_username)

@@ -3,17 +3,8 @@ import json
 import base64
 import os
 
-################ CHANGE BELOW CONSTANTS ###############
+from constants import ORG, JUNIT, GH_TOKEN, HEADERS
 
-ORG = "cmsc389T-winter23" # name of the organization
-
-###################### END CHANGES ####################
-
-JUNIT = f"https://github.com/{ORG}/git-java-setup/raw/main/junit-4.10.jar"
-GH_TOKEN = open(".token").readline().strip()
-HEADERS = {
-  'Authorization': f'Bearer {GH_TOKEN}'
-}
 
 def request_github(path, params={}):
     return requests.get(f"https://api.github.com/{path}", headers=HEADERS, params=params)

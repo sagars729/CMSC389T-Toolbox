@@ -1,9 +1,8 @@
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number, visibility 
 
-from utils import request_github, request_graphql, read_submission, ORG
-import base64
-import json
+from utils import request_github, request_graphql, read_submission
+from constants import ORG
 
 
 def load_pull_request_reviews(slug, pull_num):

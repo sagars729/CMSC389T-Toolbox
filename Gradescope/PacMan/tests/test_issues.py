@@ -1,7 +1,9 @@
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number
 
-from utils import request_github, request_graphql, read_submission, ORG
+from utils import request_github, request_graphql, read_submission
+from constants import ORG
+
 import base64
 import json
 

@@ -4,18 +4,8 @@ import base64
 import os
 import re
 
-################ CHANGE BELOW CONSTANTS ###############
+from constants import GH_USER, ORG, TEMPLATE, GH_TOKEN, HEADERS
 
-GH_USER = "sagars729" # user the gh token belongs to
-ORG = "cmsc389T-winter23" # name of the organization
-TEMPLATE = "cmsc389T-web-template" # name of the template repo
-
-###################### END CHANGES ####################
-
-GH_TOKEN = open(".token").readline().strip()
-HEADERS = {
-  'Authorization': f'Bearer {GH_TOKEN}'
-}
 
 def request_github(path, params={}):
     return requests.get(f"https://api.github.com/{path}", headers=HEADERS, params=params)

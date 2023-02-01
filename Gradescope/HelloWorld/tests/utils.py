@@ -3,16 +3,8 @@ import json
 import base64
 import os
 
-################ CHANGE BELOW CONSTANTS ###############
+from constants import HEADERS
 
-# Nothing to Change!
-
-###################### END CHANGES ####################
-
-GH_TOKEN = open(".token").readline().strip()
-HEADERS = {
-  'Authorization': f'Bearer {GH_TOKEN}'
-}
 
 def request_github(path, params={}):
     return requests.get(f"https://api.github.com/{path}", headers=HEADERS, params=params)
