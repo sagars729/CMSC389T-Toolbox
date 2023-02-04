@@ -2,6 +2,8 @@ import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number, visibility 
 
 from utils import request_github, request_graphql, read_submission
+from constants import ORG
+
 import base64
 import json
 
@@ -57,8 +59,7 @@ class TestPullRequests(unittest.TestCase):
 
     def setUp(self):
       self.gh_username, self.gh_team, self.gh_fork = read_submission() 
-      self.pull_requests = load_pull_requests(self.gh_username, f'cmsc389T-fall22/{self.gh_team}')
-      self.pull_requests += load_pull_requests(self.gh_username, self.gh_fork)
+      self.pull_requests = load_pull_requests(self.gh_username, self.gh_fork)
       self.bases = set([pr["base"] for pr in self.pull_requests])
 
       self.assigned = {base:False for base in self.bases}
@@ -93,96 +94,32 @@ class TestPullRequests(unittest.TestCase):
  
     @weight(3)
     @number("1.1")
-    def test_assigned_actions_pull_request(self):
-      "Assigned to Actions FTR-item -> FTR Pull Request"
-      self.assertTrue(self.assigned["ftr-actions"],
-                      "Not assigned to a Actions FTR item Request")
-        
-    @weight(3)
-    @number("1.2")
-    def test_assigned_sabotage_pull_request(self):
-      "Assigned to Sabotage FTR-item -> FTR Pull Request"
-      self.assertTrue(self.assigned["ftr-sabotage"],
-                     "Not assigned to a Sabotage FTR item Request")
-        
-    @weight(3)
-    @number("1.3")
     def test_assigned_fix_pull_request(self):
       "Assigned to Fix FTR-item -> FTR Pull Request"
-      self.assertTrue(self.assigned["ftr-map"],
-                      "Not assigned to a Map FTR item Pull Request")
-     
+      self.assertTrue(self.assigned["ftr-fix"],
+                      "Not assigned to a Fix FTR item Request")
+        
     @weight(2)
-    @number("1.4")
-    def test_requested_reviewers_actions_pull_request(self):
-      "Requested Reviewers to Actions FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewers["ftr-actions"],
-                      "No reviewers on Actions FTR-item Pull Requests")
-
-    @weight(2)
-    @number("1.5")
-    def test_requested_reviewers_sabotage_pull_request(self):
-      "Requested Reviewers to Sabotage FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewers["ftr-sabotage"],
-                      "No reviewers on Sabotage FTR-item Pull Requests")
-     
-    @weight(2)
-    @number("1.6")
+    @number("1.2")
     def test_requested_reviewers_fix_pull_request(self):
       "Requested Reviewers to Fix FTR-item -> FTR Pull Request"
       self.assertTrue(self.reviewers["ftr-fix"],
                       "No reviewers on Fix FTR-item Pull Requests")
-
+     
     @weight(2)
     @number("2.1")
-    def test_approved_before_merge_actions_pull_request(self):
-      "Approval Before Merge for Actions FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-actions"])
-
-    @weight(2)
-    @number("2.2")
-    def test_approved_before_merge_sabotage_pull_request(self):
-      "Approval Before Merge for Sabotage FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-sabotage"])
-
-    @weight(2)
-    @number("2.3")
     def test_approved_before_merge_fix_pull_request(self):
       "Approval Before Merge for Fix FTR-item -> FTR Pull Request"
       self.assertTrue(self.approved["ftr-fix"])
 
     @weight(3)
-    @number("2.4")
-    def test_merged_pacman_pull_request(self):
-      "Merged Actions FTR-item -> FTR Pull Request"
-      self.assertTrue(self.merged["ftr-actions"])
-
-    @weight(3)
-    @number("2.5")
-    def test_merged_sabotage_pull_request(self):
-      "Merged Sabotage FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-sabotage"])
-
-    @weight(3)
-    @number("2.6")
+    @number("2.2")
     def test_merged_fix_pull_request(self):
-      "Merged Fix FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-fix"])
+      "Merged Actions FTR-item -> FTR Pull Request"
+      self.assertTrue(self.merged["ftr-fix"])
 
     @weight(5)
     @number("3.1")
-    def test_approved_actions_pull_request(self):
-      "Approved Actions FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewed["ftr-actions"])
-
-    @weight(5)
-    @number("3.2")
-    def test_approved_sabotage_pull_request(self):
-      "Approved Sabotage FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewed["ftr-sabotage"])
-
-    @weight(5)
-    @number("3.3")
     def test_approved_fix_pull_request(self):
       "Approved Fix FTR-item -> FTR Pull Request"
       self.assertTrue(self.reviewed["ftr-fix"])

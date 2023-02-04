@@ -2,13 +2,15 @@ import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number, visibility 
 
 from utils import request_github, request_graphql, read_submission
+from constants import ORG
+
 import base64
 import json
 
 
 def load_pull_request_reviews(team, pull_num):
   pull_request_reviews = request_github(
-      f"repos/cmsc389T-fall22/{team}/pulls/{pull_num}/reviews")
+      f"repos/{ORG}/{team}/pulls/{pull_num}/reviews")
   assert pull_request_reviews.status_code == 200, f"No Reviews For PR {pull_num}"
 
   pull_request_reviews = pull_request_reviews.json()
@@ -24,7 +26,7 @@ def load_pull_request_reviews(team, pull_num):
 def load_pull_requests(user, team):
   # load team pull requests
   pull_requests = request_github(
-      f"repos/cmsc389T-fall22/{team}/pulls", {"state": "all", "per_page": 100})
+      f"repos/{ORG}/{team}/pulls", {"state": "all", "per_page": 100})
   assert pull_requests.status_code == 200, f"No Pull Requests for Team {team}"
   pull_requests = pull_requests.json()
   assert len(pull_requests) > 0, f"No Pull Requests for Team {team}"

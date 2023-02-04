@@ -2,15 +2,14 @@ import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number
 
 from utils import request_github, request_graphql, read_submission
-import base64
-import json
+from constants import ORG
 
 
 def get_project_id(team):
   projects = request_graphql({'query':
       """
       query {
-        organization(login: \"cmsc389T-fall22\") {
+        organization(login: \"%s\") {
           projectsV2(first: 50) {
             nodes {
               id
@@ -19,7 +18,7 @@ def get_project_id(team):
           }
         }
       }
-      """
+      """ % (ORG)
   }).json()['data']['organization']['projectsV2']['nodes']
 
   projects = [project for project in projects
@@ -72,7 +71,7 @@ def load_project_cards(project_id):
 class TestIssues(unittest.TestCase):
 
     def setUp(self):
-      self.gh_username, self.gh_team, _ = read_submission()
+      self.gh_username, self.gh_team = read_submission()
       self.project_id = get_project_id(self.gh_team)
       self.cards = load_project_cards(self.project_id)
 
@@ -91,9 +90,3 @@ class TestIssues(unittest.TestCase):
     def test_assigned_to_sabotage_issue_card(self):
       "Created a Sabotage Issue Card and Assigned Themselves"
       self.assertIn("sabotage", ' '.join(self.card_titles))
-
-    @weight(5)
-    @number("4.3")
-    def test_assigned_to_fix_issue_card(self):
-      "Created a Fix Issue Card and Assigned Themselves"
-      self.assertIn("fix", ' '.join(self.card_titles))

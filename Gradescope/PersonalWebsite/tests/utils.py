@@ -4,12 +4,8 @@ import base64
 import os
 import re
 
-GH_TOKEN = open(".token").readline().strip()
-HEADERS = {
-  'Authorization': f'Bearer {GH_TOKEN}'
-}
-ORG = "cmsc389T-fall22"
-JUNIT = f"https://github.com/{ORG}/git-java-setup/raw/main/junit-4.10.jar"
+from constants import GH_USER, ORG, TEMPLATE, GH_TOKEN, HEADERS
+
 
 def request_github(path, params={}):
     return requests.get(f"https://api.github.com/{path}", headers=HEADERS, params=params)

@@ -3,12 +3,8 @@ import json
 import base64
 import os
 
-GH_TOKEN = open(".token").readline().strip()
-HEADERS = {
-  'Authorization': f'Bearer {GH_TOKEN}'
-}
-ORG = "cmsc389T-fall22"
-JUNIT = f"https://github.com/{ORG}/git-java-setup/raw/main/junit-4.10.jar"
+from constants import ORG, JUNIT, GH_TOKEN, HEADERS
+
 
 def request_github(path, params={}):
     return requests.get(f"https://api.github.com/{path}", headers=HEADERS, params=params)
@@ -24,8 +20,7 @@ def read_submission():
     with open("submission.txt") as submission:
         gh_username = submission.readline().strip().lower()
         gh_team = submission.readline().strip()
-        gh_fork = submission.readline().strip()
-    return gh_username, gh_team, gh_fork
+    return gh_username, gh_team
 
 def download_team_repo(team, alias=None):
     if not alias:

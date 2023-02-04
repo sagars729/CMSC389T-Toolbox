@@ -4,6 +4,8 @@
 
 cp /autograder/submission/submission.txt /autograder/source/submission.txt
 
+cp /autograder/submission_metadata.json /autograder/source/submission_metadata.json
+
 cd /autograder/source
 
 python3 run_tests.py

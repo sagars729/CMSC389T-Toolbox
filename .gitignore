@@ -1,5 +1,7 @@
+# gradescope artifacts
 __pycache__/
 .token
 roster.json
 results.json
 submission.txt
+gradescope-env

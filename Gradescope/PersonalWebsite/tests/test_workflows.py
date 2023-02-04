@@ -3,7 +3,8 @@ from gradescope_utils.autograder_utils.decorators import weight, number, visibil
 
 from utils import request_github, post_github, read_submission,\
   read_submission_links, download_repo, push_update
-import base64
+from constants import GH_USER, ORG, TEMPLATE
+
 import json
 import time
 import requests
@@ -18,7 +19,7 @@ def run_workflow(slug, workflow):
     time.sleep(5)    
 
     runs = request_github(f"repos/{slug}/actions/runs",
-                          {'actor': 'sagars729', 'branch': 'main'}).json()['workflow_runs']
+                          {'actor': f'{GH_USER}', 'branch': 'main'}).json()['workflow_runs']
     runs = [r for r in runs if r['name'] == workflow['name']]
     assert len(runs) > 0, "No runs found for workflow"
 
@@ -85,8 +86,8 @@ class TestWorkflows(unittest.TestCase):
       "Forked Class Repo"
       repo_details = request_github(f"repos/{self.slug}").json()
       self.assertTrue(repo_details['fork'], "Repository was Not Forked")
-      self.assertEqual(repo_details['parent']['full_name'],
-                       "cmsc389T-fall22/CMSC389T-Web-Template",
+      self.assertEqual(repo_details['parent']['full_name'].lower(),
+                       f"{ORG}/{TEMPLATE}".lower(),
                        "Class Repository was Not Forked")
 
     @weight(20)
