@@ -95,95 +95,101 @@ class TestPullRequests(unittest.TestCase):
     @weight(3)
     @number("1.1")
     def test_assigned_pacman_pull_request(self):
-      "Assigned to PacMan FTR-item -> FTR Pull Request"
+      "Created a Pull-Request for your PacMan FTR-item branch to -> FTR-Pacman and assigned yourself to the PR"
       self.assertTrue(self.assigned["ftr-pacman"],
-                      "Not assigned to a PacMan FTR item Request")
+                      "Not assigned to a PacMan FTR item Pull Request OR Pull Request made to merge to the Wrong Branch (Must be to FTR-Pacman)")
         
     @weight(3)
     @number("1.2")
     def test_assigned_ghost_pull_request(self):
-      "Assigned to Ghost FTR-item -> FTR Pull Request"
+      "Created a Pull-Request for your Ghost FTR-item branch to -> FTR-Ghost and assigned yourself to the PR"
       self.assertTrue(self.assigned["ftr-ghost"],
-                     "Not assigned to a Ghost FTR item Request")
+                     "Not assigned to a Ghost FTR item Request OR Pull Request made to merge to the Wrong Branch (Must be to FTR-Ghost)")
         
     @weight(3)
     @number("1.3")
     def test_assigned_map_pull_request(self):
-      "Assigned to Map FTR-item -> FTR Pull Request"
+      "Created a Pull-Request for your Map FTR-item branch to -> FTR-Map and assigned yourself to the PR"
       self.assertTrue(self.assigned["ftr-map"],
-                      "Not assigned to a Map FTR item Pull Request")
+                      "Not assigned to a Map FTR item Pull Request OR Pull Request made to merge to the Wrong Branch (Must be to FTR-Map)")
      
     @weight(2)
     @number("1.4")
     def test_requested_reviewers_pacman_pull_request(self):
-      "Requested Reviewers to PacMan FTR-item -> FTR Pull Request"
+      "Requested Reviewers to review your PacMan FTR-item -> FTR-PacMan Pull Request"
       self.assertTrue(self.reviewers["ftr-pacman"],
-                      "No reviewers on PacMan FTR-item Pull Requests")
+                      "No reviewers assigned on PacMan FTR-item Pull Requests (right column Reviewers missing reviewer)")
 
     @weight(2)
     @number("1.5")
     def test_requested_reviewers_ghost_pull_request(self):
-      "Requested Reviewers to Ghost FTR-item -> FTR Pull Request"
+      "Requested Reviewers to review yout Ghost FTR-item -> FTR Pull Request"
       self.assertTrue(self.reviewers["ftr-ghost"],
-                      "No reviewers on Ghost FTR-item Pull Requests")
+                      "No reviewers on Ghost FTR-item Pull Requests (right column Reviewers missing reviewer)")
      
     @weight(2)
     @number("1.6")
     def test_requested_reviewers_map_pull_request(self):
-      "Requested Reviewers to Map FTR-item -> FTR Pull Request"
+      "Requested Reviewers to review your Map FTR-item -> FTR Pull Request"
       self.assertTrue(self.reviewers["ftr-map"],
-                      "No reviewers on Map FTR-item Pull Requests")
+                      "No reviewers on Map FTR-item Pull Requests (right column Reviewers missing reviewer)")
 
     @weight(2)
     @number("2.1")
     def test_approved_before_merge_pacman_pull_request(self):
-      "Approval Before Merge for PacMan FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-pacman"])
+      "Pull Request for your PacMan FTR-item -> FTR-PacMan was approved by assigned reviewer before merging"
+      self.assertTrue(self.approved["ftr-pacman"],
+                      "Pull Request was NOT approved before being merged")
 
     @weight(2)
     @number("2.2")
     def test_approved_before_merge_ghost_pull_request(self):
-      "Approval Before Merge for Ghost FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-ghost"])
+      "Pull Request for your Ghost FTR-item -> FTR-Ghost was approved by assigned reviewer before merging"
+      self.assertTrue(self.approved["ftr-ghost"],
+                      "Pull Request was NOT approved before being merged")
 
     @weight(2)
     @number("2.3")
     def test_approved_before_merge_map_pull_request(self):
-      "Approval Before Merge for Map FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-map"])
+      "Pull Request for your Map FTR-item -> FTR-Map was approved by assigned reviewer before merging"
+      self.assertTrue(self.approved["ftr-map"],
+                      "Pull Request was NOT approved before being merged")
 
     @weight(3)
     @number("2.4")
     def test_merged_pacman_pull_request(self):
-      "Merged PacMan FTR-item -> FTR Pull Request"
-      self.assertTrue(self.merged["ftr-pacman"])
+      "Merged PacMan FTR-item -> FTR-Pacman Pull Request"
+      self.assertTrue(self.merged["ftr-pacman"],
+                      "PacMan FTR-item was not merged to FTR-Pacman (must be merged to FTR-Pacman)")
 
     @weight(3)
     @number("2.5")
     def test_merged_ghost_pull_request(self):
       "Merged for Ghost FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-ghost"])
+      self.assertTrue(self.approved["ftr-ghost"],
+                      "Ghost FTR-item was not merged to FTR-Ghost (must be merged to FTR-Ghost)")
 
     @weight(3)
     @number("2.6")
     def test_merged_map_pull_request(self):
       "Merged for Map FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-map"])
+      self.assertTrue(self.approved["ftr-map"],
+                      "Map FTR-item was not merged to FTR-Map (must be merged to FTR-Pacman)")
 
     @weight(5)
     @number("3.1")
     def test_approved_pacman_pull_request(self):
-      "Approved PacMan FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewed["ftr-pacman"])
+      "Approved a PacMan FTR-item -> FTR-PacMan Pull Request of another team member"
+      self.assertTrue(self.reviewed["ftr-pacman"], "Was not assigned as reviewer OR did not approve a PacMan FTR-item -> FTR-PacMan pull request")
 
     @weight(5)
     @number("3.2")
     def test_approved_ghost_pull_request(self):
       "Approved Ghost FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewed["ftr-ghost"])
+      self.assertTrue(self.reviewed["ftr-ghost"], "Was not assigned as reviewer OR did not approve a Ghost FTR-item -> FTR-Ghost pull request")
 
     @weight(5)
     @number("3.3")
     def test_approved_map_pull_request(self):
       "Approved Map FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewed["ftr-map"])
+      self.assertTrue(self.reviewed["ftr-map"], "Was not assigned as reviewer OR did not approve a Map FTR-item -> FTR-Map pull request")
