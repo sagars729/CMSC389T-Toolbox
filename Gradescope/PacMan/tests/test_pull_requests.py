@@ -165,14 +165,14 @@ class TestPullRequests(unittest.TestCase):
     @weight(3)
     @number("2.5")
     def test_merged_ghost_pull_request(self):
-      "Merged for Ghost FTR-item -> FTR Pull Request"
+      "Merged Ghost FTR-item -> FTR Pull Request"
       self.assertTrue(self.approved["ftr-ghost"],
                       "Ghost FTR-item was not merged to FTR-Ghost (must be merged to FTR-Ghost)")
 
     @weight(3)
     @number("2.6")
     def test_merged_map_pull_request(self):
-      "Merged for Map FTR-item -> FTR Pull Request"
+      "Merged Map FTR-item -> FTR Pull Request"
       self.assertTrue(self.approved["ftr-map"],
                       "Map FTR-item was not merged to FTR-Map (must be merged to FTR-Map)")
 
@@ -185,11 +185,11 @@ class TestPullRequests(unittest.TestCase):
     @weight(5)
     @number("3.2")
     def test_approved_ghost_pull_request(self):
-      "Approved Ghost FTR-item -> FTR Pull Request"
+      "Approved Ghost FTR-item -> FTR Pull Request of another team member"
       self.assertTrue(self.reviewed["ftr-ghost"], "Was not assigned as reviewer OR did not approve a Ghost FTR-item -> FTR-Ghost pull request")
 
     @weight(5)
     @number("3.3")
     def test_approved_map_pull_request(self):
-      "Approved Map FTR-item -> FTR Pull Request"
+      "Approved Map FTR-item -> FTR Pull Request of another team member"
       self.assertTrue(self.reviewed["ftr-map"], "Was not assigned as reviewer OR did not approve a Map FTR-item -> FTR-Map pull request")
