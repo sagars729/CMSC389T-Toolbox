@@ -134,7 +134,7 @@ class TestPullRequests(unittest.TestCase):
     @weight(3)
     @number("2.4")
     def test_merged_pacman_pull_request(self):
-      "Merged Actions FTR-item -> FTR Pull Request"
+      "Merged Actions FTR-item -> FTR-Actions Pull Request"
       self.assertTrue(self.merged["ftr-actions"],
                       "Actions FTR-item was not merged to FTR-Actions (must be merged to FTR-Pacman)")
 
@@ -142,7 +142,7 @@ class TestPullRequests(unittest.TestCase):
     @weight(3)
     @number("2.5")
     def test_merged_sabotage_pull_request(self):
-      "Merged Sabotage FTR-item -> FTR Pull Request"
+      "Merged Sabotage FTR-item -> FTR-Sabotage Pull Request"
       self.assertTrue(self.approved["ftr-sabotage"],
                       "Sabotage FTR-item was not merged to FTR-Sabotage (must be merged to FTR-Pacman)")
 
@@ -150,13 +150,13 @@ class TestPullRequests(unittest.TestCase):
     @weight(5)
     @number("3.1")
     def test_approved_actions_pull_request(self):
-      "Approved Actions FTR-item -> FTR Pull Request of another team member "
+      "Approved Actions FTR-item -> FTR-Actions Pull Request of another team member "
       self.assertTrue(self.reviewed["ftr-actions"],
                       "Was not assigned as reviewer OR did not approve a Actions FTR-item -> FTR-Action pull request")
 
     @weight(5)
     @number("3.2")
     def test_approved_sabotage_pull_request(self):
-      "Approved Sabotage FTR-item -> FTR Pull Request of another team member"
+      "Approved Sabotage FTR-item -> FTR-Sabotage Pull Request of another team member"
       self.assertTrue(self.reviewed["ftr-sabotage"],
                       "Was not assigned as reviewer OR did not approve a Sabotage FTR-item -> FTR-Sabotage pull request")
