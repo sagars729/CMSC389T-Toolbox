@@ -132,7 +132,7 @@ class TestPullRequests(unittest.TestCase):
     def test_requested_reviewers_map_pull_request(self):
       "Requested Reviewers to review your Map FTR-item -> FTR Pull Request"
       self.assertTrue(self.reviewers["ftr-map"],
-                      "No reviewers on Map FTR-item Pull Requests (right column Reviewers missing reviewer)")
+                      "No reviewers assigned on Map FTR-item Pull Requests (right column Reviewers missing reviewer)")
 
     @weight(2)
     @number("2.1")
