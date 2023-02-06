@@ -125,7 +125,7 @@ class TestPullRequests(unittest.TestCase):
     def test_requested_reviewers_ghost_pull_request(self):
       "Requested Reviewers to review your Ghost FTR-item -> FTR-Ghost Pull Request"
       self.assertTrue(self.reviewers["ftr-ghost"],
-                      "No reviewers on Ghost FTR-item Pull Requests (right column Reviewers missing reviewer)")
+                      "No reviewers assigned on Ghost FTR-item Pull Requests (right column Reviewers missing reviewer)")
      
     @weight(2)
     @number("1.6")
