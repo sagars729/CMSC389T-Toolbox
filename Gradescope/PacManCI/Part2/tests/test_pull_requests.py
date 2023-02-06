@@ -116,12 +116,12 @@ class TestPullRequests(unittest.TestCase):
     @weight(3)
     @number("2.2")
     def test_merged_fix_pull_request(self):
-      "Merged Actions FTR-item -> FTR Pull Request"
+      "Merged Actions FTR-item -> FTR-Fix Pull Request"
       self.assertTrue(self.merged["ftr-fix"],
                       "Fix FTR-item was not merged to FTR-Fix (must be merged to FTR-Fix)")
 
     @weight(5)
     @number("3.1")
     def test_approved_fix_pull_request(self):
-      "Approved Fix FTR-item -> FTR Pull Request of another team member"
+      "Approved Fix FTR-item -> FTR-Fix Pull Request of another team member"
       self.assertTrue(self.reviewed["ftr-fix"], "Was not assigned as reviewer OR did not approve a Fix FTR-item -> FTR-Fix pull request")
