@@ -95,31 +95,33 @@ class TestPullRequests(unittest.TestCase):
     @weight(3)
     @number("1.1")
     def test_assigned_fix_pull_request(self):
-      "Assigned to Fix FTR-item -> FTR Pull Request"
+      "Created a Pull-Request for your Fix FTR-item branch to -> FTR-Fix and assigned yourself to the PR"
       self.assertTrue(self.assigned["ftr-fix"],
-                      "Not assigned to a Fix FTR item Request")
+                      "Not assigned to a Fix FTR item Pull Request OR Pull Request made to merge to the Wrong Branch (Must be to FTR-Fix)")
         
     @weight(2)
     @number("1.2")
     def test_requested_reviewers_fix_pull_request(self):
-      "Requested Reviewers to Fix FTR-item -> FTR Pull Request"
+      "Requested Reviewers to review your Fix FTR-item -> FTR-Fix Pull Request"
       self.assertTrue(self.reviewers["ftr-fix"],
-                      "No reviewers on Fix FTR-item Pull Requests")
+                      "No reviewers on Fix FTR-item Pull Requests (right column Reviewers missing reviewer)")
      
     @weight(2)
     @number("2.1")
     def test_approved_before_merge_fix_pull_request(self):
-      "Approval Before Merge for Fix FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-fix"])
+      "Pull Request for your Fix FTR-item -> FTR-Fix was approved by assigned reviewer before merging"
+      self.assertTrue(self.approved["ftr-fix"],
+                      "Pull Request was NOT approved before being merged")
 
     @weight(3)
     @number("2.2")
     def test_merged_fix_pull_request(self):
       "Merged Actions FTR-item -> FTR Pull Request"
-      self.assertTrue(self.merged["ftr-fix"])
+      self.assertTrue(self.merged["ftr-fix"],
+                      "Fix FTR-item was not merged to FTR-Fix (must be merged to FTR-Fix)")
 
     @weight(5)
     @number("3.1")
     def test_approved_fix_pull_request(self):
-      "Approved Fix FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewed["ftr-fix"])
+      "Approved Fix FTR-item -> FTR Pull Request of another team member"
+      self.assertTrue(self.reviewed["ftr-fix"], "Was not assigned as reviewer OR did not approve a Fix FTR-item -> FTR-Fix pull request")
