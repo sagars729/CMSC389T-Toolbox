@@ -92,63 +92,71 @@ class TestPullRequests(unittest.TestCase):
     @weight(3)
     @number("1.1")
     def test_assigned_actions_pull_request(self):
-      "Assigned to Actions FTR-item -> FTR Pull Request"
+      "Created a Pull-Request for your Action FTR-item branch to -> FTR-Action and assigned yourself to the PR"
       self.assertTrue(self.assigned["ftr-actions"],
-                      "Not assigned to a Actions FTR item Request")
+                      "Not assigned to a Action FTR item Pull Request OR Pull Request made to merge to the Wrong Branch (Must be to FTR-Action)")
         
     @weight(3)
     @number("1.2")
     def test_assigned_sabotage_pull_request(self):
-      "Assigned to Sabotage FTR-item -> FTR Pull Request"
+      "Created a Pull-Request for your Sabotage FTR-item branch to -> FTR-Sabotage and assigned yourself to the PR"
       self.assertTrue(self.assigned["ftr-sabotage"],
-                     "Not assigned to a Sabotage FTR item Request")
+                     "Not assigned to a Sabotage FTR item Pull Request OR Pull Request made to merge to the Wrong Branch (Must be to FTR-Sabotage)")
         
     @weight(2)
     @number("1.4")
     def test_requested_reviewers_actions_pull_request(self):
-      "Requested Reviewers to Actions FTR-item -> FTR Pull Request"
+      "Requested Reviewers to review your Actions FTR-item -> FTR-Action Pull Request"
       self.assertTrue(self.reviewers["ftr-actions"],
-                      "No reviewers on Actions FTR-item Pull Requests")
+                      "No reviewers assigned on Actions FTR-item Pull Requests (right column Reviewers missing reviewer)")
 
     @weight(2)
     @number("1.5")
     def test_requested_reviewers_sabotage_pull_request(self):
-      "Requested Reviewers to Sabotage FTR-item -> FTR Pull Request"
+      "Requested Reviewers to review your Sabotage FTR-item -> FTR-Sabotage Pull Request"
       self.assertTrue(self.reviewers["ftr-sabotage"],
-                      "No reviewers on Sabotage FTR-item Pull Requests")
+                      "No reviewers assigned on Sabotage FTR-item Pull Requests (right column Reviewers missing reviewer)")
      
     @weight(2)
     @number("2.1")
     def test_approved_before_merge_actions_pull_request(self):
-      "Approval Before Merge for Actions FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-actions"])
+      "Pull Request for your Actions FTR-item -> FTR-Action was approved by assigned reviewer before merging"
+      self.assertTrue(self.approved["ftr-actions"],
+                      "Pull Request was NOT approved before being merged")
 
     @weight(2)
     @number("2.2")
     def test_approved_before_merge_sabotage_pull_request(self):
-      "Approval Before Merge for Sabotage FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-sabotage"])
+      "Pull Request for your Sabotage FTR-item -> FTR-Sabotage was approved by assigned reviewer before merging"
+      self.assertTrue(self.approved["ftr-sabotage"],
+                      "Pull Request was NOT approved before being merged")
 
     @weight(3)
     @number("2.4")
     def test_merged_pacman_pull_request(self):
       "Merged Actions FTR-item -> FTR Pull Request"
-      self.assertTrue(self.merged["ftr-actions"])
+      self.assertTrue(self.merged["ftr-actions"],
+                      "Actions FTR-item was not merged to FTR-Actions (must be merged to FTR-Pacman)")
+
 
     @weight(3)
     @number("2.5")
     def test_merged_sabotage_pull_request(self):
       "Merged Sabotage FTR-item -> FTR Pull Request"
-      self.assertTrue(self.approved["ftr-sabotage"])
+      self.assertTrue(self.approved["ftr-sabotage"],
+                      "Sabotage FTR-item was not merged to FTR-Sabotage (must be merged to FTR-Pacman)")
+
 
     @weight(5)
     @number("3.1")
     def test_approved_actions_pull_request(self):
-      "Approved Actions FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewed["ftr-actions"])
+      "Approved Actions FTR-item -> FTR Pull Request of another team member "
+      self.assertTrue(self.reviewed["ftr-actions"],
+                      "Was not assigned as reviewer OR did not approve a Actions FTR-item -> FTR-Action pull request")
 
     @weight(5)
     @number("3.2")
     def test_approved_sabotage_pull_request(self):
-      "Approved Sabotage FTR-item -> FTR Pull Request"
-      self.assertTrue(self.reviewed["ftr-sabotage"])
+      "Approved Sabotage FTR-item -> FTR Pull Request of another team member"
+      self.assertTrue(self.reviewed["ftr-sabotage"],
+                      "Was not assigned as reviewer OR did not approve a Sabotage FTR-item -> FTR-Sabotage pull request")
