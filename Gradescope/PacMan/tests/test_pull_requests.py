@@ -123,7 +123,7 @@ class TestPullRequests(unittest.TestCase):
     @weight(2)
     @number("1.5")
     def test_requested_reviewers_ghost_pull_request(self):
-      "Requested Reviewers to review yout Ghost FTR-item -> FTR Pull Request"
+      "Requested Reviewers to review your Ghost FTR-item -> FTR Pull Request"
       self.assertTrue(self.reviewers["ftr-ghost"],
                       "No reviewers on Ghost FTR-item Pull Requests (right column Reviewers missing reviewer)")
      
@@ -174,7 +174,7 @@ class TestPullRequests(unittest.TestCase):
     def test_merged_map_pull_request(self):
       "Merged for Map FTR-item -> FTR Pull Request"
       self.assertTrue(self.approved["ftr-map"],
-                      "Map FTR-item was not merged to FTR-Map (must be merged to FTR-Pacman)")
+                      "Map FTR-item was not merged to FTR-Map (must be merged to FTR-Map)")
 
     @weight(5)
     @number("3.1")
