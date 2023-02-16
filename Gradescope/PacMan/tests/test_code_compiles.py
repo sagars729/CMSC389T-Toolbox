@@ -2,6 +2,7 @@ import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number
 
 from utils import download_team_repo, read_submission
+from constants import PROJECT
 import base64
 import json
 import os
@@ -17,7 +18,7 @@ class TestCodeCompiles(unittest.TestCase):
     def test_source_code_compiles(self):
       "Team Source Code Compiles"
       download_team_repo(self.gh_team, f"{self.gh_team}-src")
-      status = os.system(f'cd {self.gh_team}-src/Projects/P3 && javac -cp "src/" src/*.java')
+      status = os.system(f'cd {self.gh_team}-src/Projects/{PROJECT} && ./gradlew build -x test')
       self.assertEqual(status, 0, "Team source code did not compile")
      
 
@@ -26,5 +27,5 @@ class TestCodeCompiles(unittest.TestCase):
     def test_test_code_compiles(self):
       "Team Test Code Compiles"
       download_team_repo(self.gh_team, f"{self.gh_team}-test")
-      status = os.system(f'cd {self.gh_team}-src/Projects/P3 && javac -cp "src/:tests/:../../junit-4.10.jar" src/*.java tests/*.java')
+      status = os.system(f'cd {self.gh_team}-src/Projects/{PROJECT} && ./gradlew build testClasses -x test')
       self.assertEqual(status, 0, "Team source and test code did not compile")
