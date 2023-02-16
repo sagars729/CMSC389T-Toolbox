@@ -6,9 +6,9 @@ import json
 
 class TestUser(unittest.TestCase):
     def setUp(self):
-      self.gh_username = read_submission() 
+      self.gh_username, _, _ = read_submission()
       self.metadata = json.load(open("submission_metadata.json"))
-      self.user_email =  self.metadata["users"][0]["email"]
+      self.user_email = self.metadata["users"][0]["email"]
       self.username = self.user_email.split("@")[0]
       self.roster = json.load(open("roster.json"))
  

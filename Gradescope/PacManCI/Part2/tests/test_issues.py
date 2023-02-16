@@ -4,9 +4,6 @@ from gradescope_utils.autograder_utils.decorators import weight, number
 from utils import request_github, request_graphql, read_submission
 from constants import ORG
 
-import base64
-import json
-
 
 def get_project_id(team):
   projects = request_graphql({'query':
@@ -21,13 +18,13 @@ def get_project_id(team):
           }
         }
       }
-      """ % (ORG,)
+      """ % (ORG)
   }).json()['data']['organization']['projectsV2']['nodes']
 
   projects = [project for project in projects
-              if project['title'].lower() == f'{team} PacMan Backlog'.lower()]
+              if project['title'].lower() == f'{team} PacMan CI Backlog'.lower()]
 
-  assert len(projects) > 0, f'Project "{team} PacMan Backlog" Not Found'
+  assert len(projects) > 0, f'Project "{team} PacMan CI Backlog" Not Found'
   return projects[0]['id']
 
 
@@ -74,7 +71,7 @@ def load_project_cards(project_id):
 class TestIssues(unittest.TestCase):
 
     def setUp(self):
-      self.gh_username, self.gh_team = read_submission()
+      self.gh_username, self.gh_team, _ = read_submission()
       self.project_id = get_project_id(self.gh_team)
       self.cards = load_project_cards(self.project_id)
 
@@ -84,18 +81,6 @@ class TestIssues(unittest.TestCase):
 
     @weight(5)
     @number("4.1")
-    def test_assigned_to_pacman_issue_card(self):
-      "Created a PacMan Issue Card and Assigned Themselves"
-      self.assertIn("pacman", ' '.join(self.card_titles))
-
-    @weight(5)
-    @number("4.2")
-    def test_assigned_to_ghost_issue_card(self):
-      "Created a Ghost Issue Card and Assigned Themselves"
-      self.assertIn("ghost", ' '.join(self.card_titles))
-
-    @weight(5)
-    @number("4.3")
-    def test_assigned_to_map_issue_card(self):
-      "Created a Map Issue Card and Assigned Themselves"
-      self.assertIn("map", ' '.join(self.card_titles))
+    def test_assigned_to_fix_issue_card(self):
+      "Created a Fix Issue Card and Assigned Themselves"
+      self.assertIn("fix", ' '.join(self.card_titles))

@@ -2,13 +2,12 @@ import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number, visibility 
 
 from tests.utils import request_github, post_github, read_submission,\
-  read_submission_links, download_repo, push_update
+  read_submission_links, download_repo, push_update, GH_USER
 import base64
 import json
 import time
 import requests
 import os
-
 
 def run_workflow(slug, workflow, skip_run=False, max_retries=24):
     if not skip_run:
@@ -21,7 +20,7 @@ def run_workflow(slug, workflow, skip_run=False, max_retries=24):
     time.sleep(5)    
 
     runs = request_github(f"repos/{slug}/actions/runs",
-                          {'actor': 'sagars729', 'branch': 'main'}).json()['workflow_runs']
+                          {'actor': f'{GH_USER}', 'branch': 'main'}).json()['workflow_runs']
     runs = [r for r in runs if r['name'] == workflow['name']]
 
     if len(runs) == 0:

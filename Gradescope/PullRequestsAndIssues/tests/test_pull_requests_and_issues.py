@@ -1,10 +1,8 @@
 import unittest
 from gradescope_utils.autograder_utils.decorators import weight, number
 
-from utils import request_github, request_graphql
+from utils import request_github, request_graphql, read_submission
 from constants import ORG, PR_NUMS, PROJECT_NUM, REPO
-import base64
-import json
 
 
 class TestPullRequestsAndIssues(unittest.TestCase):
@@ -14,21 +12,22 @@ class TestPullRequestsAndIssues(unittest.TestCase):
           f"repos/{ORG}/{REPO}/pulls/{pull_num}")
       self.assertEqual(pull_request.status_code, 200,
                        f"Unable To Find Pull Request {pull_num}")
-      self.requested_reviewers += pull_request.json()["requested_reviewers"]
-      
+      self.requested_reviewers += [r.lower() for r in 
+        pull_request.json()["requested_reviewers"]]
+
       # load reviewer comments and status
       pull_request_reviews = request_github(
           f"repos/{ORG}/{REPO}/pulls/{pull_num}/reviews", {'per_page': 80})
       self.assertEqual(pull_request_reviews.status_code, 200,
                   "Unable To Find Pull Request Reviews")
       pull_request_reviews = pull_request_reviews.json()
-      pull_request_reviews = {review["user"]["login"]: {
+      pull_request_reviews = {review["user"]["login"].lower(): {
           "body": review["body"], "state": review["state"]}
           for review in pull_request_reviews}
       self.pull_request_reviews.update(pull_request_reviews)
 
     def setUp(self):
-      self.gh_username = open("submission.txt").readline().strip()
+      self.gh_username = read_submission()
 
       # load pull request reviews
       self.requested_reviewers = []
@@ -76,7 +75,8 @@ class TestPullRequestsAndIssues(unittest.TestCase):
       self.project_cards = {card['content']['assignees']['nodes'][0]['login']:
         {'title': card['content']['title'], 'body': card['content']['body']}
         for card in self.project_cards
-        if len(card['content']['assignees']['nodes']) > 0} 
+        if 'assignees' in card['content'] and 
+        len(card['content']['assignees']['nodes']) > 0}
       
     @weight(1)
     @number("1.1")
